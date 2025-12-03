@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Amunisi Praktikan K1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #0a0f24, #14213d, #1a1a3e);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.08);
+            padding: 40px;
+            border-radius: 25px;
+            backdrop-filter: blur(15px);
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 0 40px rgba(0, 255, 255, 0.3);
+            border: 2px solid rgba(0, 255, 255, 0.2);
+            position: relative;
+            z-index: 10;
+            transform: scale(0.9);
+            animation: containerEntrance 0.6s ease forwards;
+        }
+
+        @keyframes containerEntrance {
+            to {
+                transform: scale(1);
+            }
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px cyan;
+            animation: glow 3s infinite alternate;
+        }
+
+        @keyframes glow {
+            0% { text-shadow: 0 0 10px cyan; }
+            100% { text-shadow: 0 0 25px cyan, 0 0 35px cyan; }
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 15px;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            margin-bottom: 20px;
+            outline: none;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            transition: all 0.3s;
+        }
+
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        input:focus {
+            border-color: cyan;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+            transform: scale(1.02);
+        }
+
+        button {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            background: linear-gradient(135deg, cyan, #00bcd4);
+            font-size: 18px;
+            font-weight: bold;
+            color: #0a0f24;
+            transition: all 0.3s;
+            box-shadow: 0 5px 20px rgba(0, 255, 255, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.5);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 255, 255, 0.6);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .motivation-box {
+            margin-top: 25px;
+            padding: 25px;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.2);
+            min-height: 100px;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            font-size: 18px;
+            line-height: 1.6;
+            position: relative;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+
+        .confetti {
+            position: fixed;
+            width: 10px;
+            height: 10px;
+            background: cyan;
+            pointer-events: none;
+            z-index: 1000;
+            animation: fall 3s linear forwards;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        .emoji-float {
+            position: fixed;
+            font-size: 40px;
+            pointer-events: none;
+            z-index: 999;
+            animation: floatUp 3s ease-out forwards;
+        }
+
+        @keyframes floatUp {
+            to {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 15px;
+            flex: 1;
+            border: 2px solid rgba(0, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: scale(1.05);
+            border-color: cyan;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: bold;
+            color: cyan;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            opacity: 0.8;
+        }
+
+        .achievement-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #0a0f24;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin: 5px;
+            font-size: 14px;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+            animation: badgeBounce 2s infinite;
+        }
+
+        @keyframes badgeBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, cyan, #00bcd4);
+            width: 0;
+            transition: width 2s ease;
+            box-shadow: 0 0 10px cyan;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .secondary-btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid cyan;
+            color: cyan;
+        }
+
+        .secondary-btn:hover {
+            background: rgba(0, 255, 255, 0.2);
+        }
+
+        .celebration-text {
+            font-size: 50px;
+            animation: celebrate 1s ease;
+        }
+
+        @keyframes celebrate {
+            0%, 100% { transform: scale(1) rotate(0deg); }
+            25% { transform: scale(1.2) rotate(-10deg); }
+            75% { transform: scale(1.2) rotate(10deg); }
+        }
+
+        .party-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            animation: fadeIn 0.3s;
+        }
+
+        .party-overlay.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .party-content {
+            text-align: center;
+            animation: zoomIn 0.5s;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0); }
+            to { transform: scale(1); }
+        }
+
+        .party-emoji {
+            font-size: 100px;
+            animation: spin 2s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .party-text {
+            font-size: 40px;
+            margin: 20px 0;
+            animation: rainbow 3s linear infinite;
+        }
+
+        @keyframes rainbow {
+            0% { color: #ff0000; }
+            16% { color: #ff8800; }
+            33% { color: #ffff00; }
+            50% { color: #00ff00; }
+            66% { color: #00ffff; }
+            83% { color: #0088ff; }
+            100% { color: #ff00ff; }
+        }
+
+        .floating-word {
+            position: fixed;
+            font-size: 30px;
+            font-weight: bold;
+            color: rgba(0, 255, 255, 0.3);
+            pointer-events: none;
+            z-index: 5;
+            animation: floatWord 8s linear forwards;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+        }
+
+        @keyframes floatWord {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="stars" id="starsContainer"></div>
+
+<div class="party-overlay" id="partyOverlay">
+    <div class="party-content">
+        <div class="party-emoji">🎉</div>
+        <div class="party-text">SEMANGAT UAS!</div>
+        <button onclick="closeParty()" style="margin-top: 20px;">Close</button>
+    </div>
+</div>
+
+<div class="party-overlay" id="wordPopup">
+    <div class="party-content">
+        <h2 style="margin-bottom: 20px;">1 Kata untuk Praktikum TIK</h2>
+        <input type="text" id="userWord" placeholder="Ketik 1 kata..." style="width: 300px; padding: 15px; font-size: 18px; border-radius: 10px; border: 2px solid cyan; background: rgba(255,255,255,0.1); color: white; text-align: center;" />
+        <button onclick="submitWord()" style="margin-top: 20px;">Submit</button>
+    </div>
+</div>
+
+<div class="container" id="loginContainer">
+    <h1>🎓 Masukkan Namamu</h1>
+    <input type="text" id="username" placeholder="Nama panggilan..." />
+    <button onclick="enterSite()">Masuk</button>
+</div>
+
+<div class="container hidden" id="mainContainer">
+    <h1 id="welcomeText"></h1>
+    
+    <div class="stats">
+        <div class="stat-card">
+            <div class="stat-number" id="quoteCount">0/10</div>
+            <div class="stat-label">Quotes Remaining</div>
+        </div>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+
+    <button onclick="generateMotivation()">Check This Out</button>
+
+    <div class="motivation-box" id="motivationBox">
+        Klik tombol diatas untuk mendapatkan pesan special!🌟
+    </div>
+
+    <div id="badgesContainer"></div>
+</div>
+
+<audio id="successSound" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
+<audio id="clapSound" src="https://www.soundjay.com/human/sounds/applause-1.mp3"></audio>
+<audio id="confettiSound" src="https://www.soundjay.com/misc/sounds/magic-chime-02.mp3"></audio>
+<audio id="partySound" src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3"></audio>
+
+<script>
+    let quoteCounter = 0;
+    const MAX_QUOTES = 10;
+    let userCustomWord = "";
+
+    // Generate stars
+    function createStars() {
+        const container = document.getElementById('starsContainer');
+        for (let i = 0; i < 50; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.animationDelay = Math.random() * 3 + 's';
+            container.appendChild(star);
+        }
+    }
+
+    function enterSite() {
+        const name = document.getElementById("username").value.trim();
+        if (!name) {
+            const input = document.getElementById("username");
+            input.style.animation = "shake 0.5s";
+            setTimeout(() => input.style.animation = "", 500);
+            alert("Masukkan nama terlebih dahulu!");
+            return;
+        }
+
+        document.getElementById("welcomeText").innerHTML = `<span class="celebration-text">🎊</span> Halo ${name}! <span class="celebration-text">🎊</span><br><small>silahkan cek pesan dari asprak TIK K1 yg paling keren</small>`;
+        document.getElementById("loginContainer").classList.add("hidden");
+        
+        // Show word popup first
+        document.getElementById("wordPopup").classList.add("active");
+    }
+
+    function submitWord() {
+        const word = document.getElementById("userWord").value.trim();
+        if (!word) {
+            alert("Masukkan 1 kata terlebih dahulu!");
+            return;
+        }
+
+        userCustomWord = word;
+        document.getElementById("wordPopup").classList.remove("active");
+        document.getElementById("mainContainer").classList.remove("hidden");
+        
+        confettiBlast();
+        setTimeout(() => {
+            document.getElementById("progressFill").style.width = "100%";
+        }, 500);
+    }
+
+    const motivations = [
+        "Selamat {{name}}! kamu udah nyelesain praktikum TIK dengan sangat baik. Good job!! Semangat yaa buat UAS, kamu pasti bisa!",
+        "Congrats {{name}}, akhirnya kelar juga praktikum TIK inii! no more pasien. Sekarang waktunya fokus dikit lagi buat UAS!",
+        "{{name}}, kerja kerasmu akhirnya terbayar yhh. Selamat sudah menuntaskan praktikum TIK! Lanjutkan energi positifnya sampai UAS nanti!",
+        "Good job {{name}}! makasih ya udah survive praktikum bareng-bareng. KM KERENN, SERIUS! Semoga UAS-mu lancar jaya!",
+        "Selamat {{name}}! kamu resmi menamatkan praktikum TIK dengan baik!! jangan kapok ya.. Gaskeun semangatnya buat UAS!",
+        "Congrats {{name}} udah jadi S.TIK!! see u di ALPRO... Tapi sebelumnya, semangat UAS dulu yaa!",
+        "Yeay {{name}}! praktikum TIK selesai juga. Bangga banget sama perjuanganmu! Semoga UAS nanti berjalan mulus tanpa drama!",
+        "Hore {{name}}! kamu udah lulus dari segala cerita praktikum TIK. Tinggal satu lagi nih—UAS. Bismillah semangat terus!",
+        "Keren parah {{name}}! semua capekmu di praktikum akhirnya kebayar. Yuk, push dikit lagi buat UAS, bentar lagi finish!",
+        "Akhirnya tamat juga ya {{name}} dari praktikum TIK! Proud of you! Jangan lupa siapin tenaga dan mood terbaik buat UAS nanti!"
+    ];
+
+    const badges = [
+        "🏅 Praktikan Terbaik",
+        "💻 Pengcoding Handal",
+        "⚡ Speed Learner",
+        "🌟 Smartest Student",
+        "🎯 Perfect Score"
+    ];
+
+    function generateMotivation() {
+        if (quoteCounter >= MAX_QUOTES) {
+            alert("🎉 Kamu sudah mencapai batas maksimal quotes! Selamat!");
+            return;
+        }
+
+        const name = document.getElementById("username").value.trim();
+        const filledMotivations = motivations.map(m => m.replace(/{{name}}/g, name));
+
+        const randomIndex = Math.floor(Math.random() * filledMotivations.length);
+        const box = document.getElementById("motivationBox");
+        box.innerText = filledMotivations[randomIndex];
+
+        box.style.animation = "pulse 1s";
+        setTimeout(() => box.style.animation = "", 1000);
+
+        // Update counter
+        quoteCounter++;
+        document.getElementById("quoteCount").innerText = `${quoteCounter}/${MAX_QUOTES}`;
+
+        // Play sounds
+        const success = document.getElementById("successSound");
+        const clap = document.getElementById("clapSound");
+        success.play();
+        success.onended = () => clap.play();
+
+        // Floating emojis
+        createFloatingEmoji();
+        
+        // Create floating custom word
+        if (userCustomWord) {
+            createFloatingWord(userCustomWord);
+        }
+
+        // Random badge after 3 quotes
+        if (quoteCounter % 3 === 0) {
+            addBadge();
+        }
+
+        // Mini confetti
+        for (let i = 0; i < 20; i++) {
+            setTimeout(() => createConfetti(), i * 50);
+        }
+
+        // Check if reached max
+        if (quoteCounter === MAX_QUOTES) {
+            setTimeout(() => {
+                alert("🎊 SELAMAT! Kamu telah menyelesaikan semua quotes! 🎊");
+                partyMode();
+            }, 1000);
+        }
+    }
+
+    function createConfetti() {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.top = '-10px';
+        confetti.style.background = ['cyan', '#00bcd4', '#ffd700', '#ff6b6b'][Math.floor(Math.random() * 4)];
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 3000);
+    }
+
+    function confettiBlast() {
+        // Play confetti sound
+        const confettiSound = document.getElementById("confettiSound");
+        confettiSound.currentTime = 0;
+        confettiSound.play().catch(e => console.log('Audio play failed:', e));
+        
+        for (let i = 0; i < 100; i++) {
+            setTimeout(() => createConfetti(), i * 30);
+        }
+    }
+
+    function createFloatingEmoji() {
+        const emojis = ['🎉', '⭐', '🎊', '💫', '✨', '🏆', '👏'];
+        const emoji = document.createElement('div');
+        emoji.className = 'emoji-float';
+        emoji.innerText = emojis[Math.floor(Math.random() * emojis.length)];
+        emoji.style.left = Math.random() * 90 + '%';
+        emoji.style.top = '80%';
+        document.body.appendChild(emoji);
+        setTimeout(() => emoji.remove(), 3000);
+    }
+
+    function createFloatingWord(word) {
+        const wordElement = document.createElement('div');
+        wordElement.className = 'floating-word';
+        wordElement.innerText = word;
+        wordElement.style.left = Math.random() * 80 + 10 + '%';
+        wordElement.style.fontSize = (Math.random() * 20 + 25) + 'px';
+        document.body.appendChild(wordElement);
+        setTimeout(() => wordElement.remove(), 8000);
+    }
+
+    function addBadge() {
+        const container = document.getElementById('badgesContainer');
+        const badge = document.createElement('div');
+        badge.className = 'achievement-badge';
+        badge.innerText = badges[Math.floor(Math.random() * badges.length)];
+        container.appendChild(badge);
+    }
+
+    let partyInterval;
+    let emojiInterval;
+    
+    function partyMode() {
+        const overlay = document.getElementById('partyOverlay');
+        overlay.classList.add('active');
+        
+        // Play party sound
+        const partySound = document.getElementById("partySound");
+        partySound.currentTime = 0;
+        partySound.play().catch(e => console.log('Audio play failed:', e));
+        
+        // Continuous confetti
+        partyInterval = setInterval(() => {
+            for (let i = 0; i < 10; i++) {
+                createConfetti();
+            }
+        }, 200);
+
+        // Continuous floating emojis
+        emojiInterval = setInterval(() => {
+            createFloatingEmoji();
+        }, 500);
+
+        // Play celebration sound after party sound
+        setTimeout(() => {
+            const clapSound = document.getElementById("clapSound");
+            clapSound.currentTime = 0;
+            clapSound.play().catch(e => console.log('Audio play failed:', e));
+        }, 500);
+
+        // Auto close after 5 seconds
+        setTimeout(() => {
+            closeParty();
+        }, 5000);
+    }
+
+    function closeParty() {
+        const overlay = document.getElementById('partyOverlay');
+        overlay.classList.remove('active');
+        if (partyInterval) clearInterval(partyInterval);
+        if (emojiInterval) clearInterval(emojiInterval);
+    }
+
+    // Initialize
+    createStars();
+</script>
+
+</body>
+</html>
